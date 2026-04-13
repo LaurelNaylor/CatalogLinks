@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Viewer</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #111;
+    }
+
+    #pdfFrame {
+      width: 100%;
+      height: 100vh;
+      border: none;
+      display: none;
+    }
+
+    #message {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div id="message">Loading PDF...</div>
+  <iframe id="pdfFrame"></iframe>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const file = params.get("file");
+
+      const messageEl = document.getElementById("message");
+      const frameEl = document.getElementById("pdfFrame");
+
+      if (!file) {
+        messageEl.textContent = 'Invalid URL.';
+        return;
+      }
+
+      const safeFilePattern = /^[a-zA-Z0-9._-]+\.pdf$/i;
+
+      if (!safeFilePattern.test(file)) {
+        messageEl.textContent = 'Invalid PDF filename.';
+        return;
+      }
+
+      frameEl.src = encodeURIComponent(file).replace(/%2F/g, "/");
+      frameEl.style.display = "block";
+      messageEl.style.display = "none";
+      document.title = file;
+    })();
+  </script>
+</body>
+</html>
