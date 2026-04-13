@@ -49,7 +49,7 @@
         return;
       }
 
-      const safeFilePattern = /^[a-zA-Z0-9._-]+\.pdf$/i;
+      const safeFilePattern = /^(?!\/)(?!.*\.\.)([a-zA-Z0-9._-]+\/)*[a-zA-Z0-9._-]+\.pdf$/i;
 
       if (!safeFilePattern.test(file)) {
         messageEl.textContent = 'Invalid PDF filename.';
